@@ -51,6 +51,11 @@
         //When user presses the copy button, copy all text in the template box into their clipboard.
         function copyText(){
                 navigator.clipboard.writeText(template)
+                var copyfield = document.getElementById("generatedTemplate")
+                copyfield.select();
+                document.execCommand("copy");
+                this.focus();
+                
                 alert("Template has been copied! :)")
 
         }
