@@ -49,16 +49,19 @@
         }
 
         //When user presses the copy button, copy all text in the template box into their clipboard.
+        //Because the navigator.clipboard.writeText method returns a promise 
+        //and your code does not wait for its result.
+        //Use .then to wait for writeText to receive its promise first.
         function copyText(){
                 navigator.clipboard.writeText(template)
-                var copyfield = document.getElementById("generatedTemplate")
-                copyfield.select();
-                copyfield.setSelectionRange(0, 99999)
-                document.execCommand("copy");
-                console.log(document.execCommand("copy") + "!")
-                this.focus()
+                    .then(() => {
+                        alert("Template has been copied! :)")
+                    })
+                    .catch(() => {
+                        alert("Uh oh, something went wrong. :(")
+                    });
                 
-                alert("Template has been copied! :)")
+                
 
         }
     </script>
