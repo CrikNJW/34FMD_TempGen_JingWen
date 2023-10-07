@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>34FMD Template Generator</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        var rank;
+        var name;
+        var offdays;
+        var date;
+        var day;
+        var month;
+        var year;
+        var awarder;
+        var details;
+        var template;
+
+        //Everytime a user changes something on the form, change the generated template.
+        //This allows for a live update of the template.
+        function onFormChange(){
+
+            rank = document.getElementById("inputRank").value;
+            name = document.getElementById("inputName").value
+            offdays = document.getElementById("inputNumberOffs").value
+            date = document.getElementById("inputDate").value
+            const unformatteddate = new Date(date);
+            awarder = document.getElementById("inputAwarder").value
+            details = document.getElementById("inputDetails").value
+
+            //WTF does || do? Basically checks if the variable is NaN, if it is, output nothing.
+            day = unformatteddate.getDate() || ""
+            month = unformatteddate.getMonth()+1 || ""
+            year = unformatteddate.getFullYear() || ""
+
+            template = "*" + rank + " " + name.toUpperCase() + "* has been awarded *" + 
+                    offdays + " Days Off* on *" + 
+                    day + "/" + 
+                    month + "/" + 
+                    year + "* by *" + awarder.toUpperCase() +
+                    "* for *" + details.toUpperCase() + "*"
+            document.getElementById("generatedTemplate").value = template
+        }
+
+        //When user presses the copy button, copy all text in the template box into their clipboard.
+        function copyText(){
+                navigator.clipboard.writeText(template)
+                alert("Template has been copied! :)")
+
+        }
+    </script>
+
+        <form class="ms-2 me-2 mt-2 text-nowrap" onchange="onFormChange()">
+
+            <div class="row pb-3">
+                <div class="col me-0 col-sm-4 col-4">
+                    <label for="inputRank" class="form-label">Rank</label>
+                    <select class="form-select" aria-label="Default select example" id="inputRank">
+                        <option value="Rank">Rank</option>
+                        <option value="REC">REC</option>
+                        <option value="PTE">PTE</option>
+                        <option value="LCP">LCP</option>
+                        <option value="CPL">CPL</option>
+                        <option value="CFC">CFC</option>
+                        <option value="3SG">3SG</option>
+                        <option value="2SG">2SG</option>
+                        <option value="1SG">1SG</option>
+                        <option value="ME1T">ME1T</option>
+                        <option value="ME1">ME1</option>
+                        <option value="ME2">ME2</option>
+                        <option value="ME3">ME3</option>
+                        <option value="ME4">ME4</option>
+                        <option value="ME5">ME5</option>
+                    </select>
+                </div>
+    
+                <div class="col col-sm-8 col-8">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inputName">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputNumberOffs" class="form-label">No. Of Off Days Awarded</label>
+                <input type="number" class="form-control" id="inputNumberOffs" step="0.5">
+            </div>
+
+            <div class="row">
+                <div class="col mb-3 col-sm-4 col-4">
+                    <label for="inputDate" class="form-label">Awarded On</label>
+                    <input type="date" class="form-control" id="inputDate" placeholder="Date Received"> 
+                </div>
+
+                <div class="col mb-3 col-sm-8 col-8">
+                    <label for="inputAwarder" class="form-label">Awarded By</label>
+                    <input type="text" class="form-control" id="inputAwarder"> 
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputDetails" class="form-label">Off Details</label>
+                <input type="text" class="form-control" id="inputDetails">
+            </div>
+
+            <div class="mb-3" text-wrap>
+                <label for="generatedTemplate" class="form-label">Template</label>
+                <textarea class="form-control" id="generatedTemplate" rows="3" disabled></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="copyText()">Copy</button>
+
+        </form>
+
+
+    </body>
+</html>
