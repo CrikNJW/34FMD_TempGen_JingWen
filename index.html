@@ -19,6 +19,19 @@
                 background-color: transparent;
                 transition: 1s;
             }
+
+            div.segmentedInputFields:nth-child(even) {
+                background: #e7e7e7;
+                border-width: medium;
+                border-color: black;
+                border-style: solid;
+            }
+            div.segmentedInputFields:nth-child(odd) { 
+                background: #acacac;
+                border-width: medium;
+                border-color: black;
+                border-style: solid;
+            }
         </style>
     </head>
 
@@ -134,6 +147,10 @@
             var container = document.getElementById("inputContainer");
             x++;
             // Create an <div> element, set its type and name attributes
+
+            var segmentedField = document.createElement("div")
+            segmentedField.className = "segmentedInputFields"
+
             var divMain = document.createElement("div")
             divMain.className = "input-group separateInput"
 
@@ -183,17 +200,19 @@
             var divDetails = document.createElement("div")
             divDetails.className = "mb-3"
 
-            var labelDetail = document.createElement("label")
-            labelDetail.htmlFor = "inputUsageDetails" + x
-            labelDetail.className = "form-label"
-            labelDetail.innerHTML = "Off Details"
+            var labelDetails = document.createElement("label")
+            labelDetails.htmlFor = "inputUsageDetails" + x
+            labelDetails.className = "form-label"
+            labelDetails.innerHTML = "Off Details"
 
             var inputDetails = document.createElement("input")
             inputDetails.type = "text"
             inputDetails.className = "form-control"
             inputDetails.id = "inputUsageDetails" + x
 
-            container.appendChild(divMain)
+            container.appendChild(segmentedField)
+            segmentedField.appendChild(divMain)
+            segmentedField.appendChild(divDetails)
             divMain.appendChild(span)
             divMain.appendChild(dateinput)
             divMain.appendChild(divHalfDay)
@@ -203,33 +222,33 @@
             divAMPM.appendChild(selectAMPM)
             selectAMPM.appendChild(optionAM)
             selectAMPM.appendChild(optionPM)
-
-            container.appendChild(divDetails)
-            container.appendChild(labelDetail)
-            container.appendChild(inputDetails)
+            divDetails.appendChild(labelDetails)
+            divDetails.appendChild(inputDetails)
 
             /*
             <div class="mb-3" id="inputContainer">
-                <div class="input-group separateInput">
-                    <span class="input-group-text">1</span>
-                    <input type="date" class="form-control" id="inputUsageDate1" placeholder="Date Used"> 
+                <div class="segmentedInputFields">
+                    <div class="input-group separateInput">
+                        <span class="input-group-text">1</span>
+                        <input type="date" class="form-control" id="inputUsageDate1" placeholder="Date Used"> 
 
-                    <div class="input-group-text">
-                        <input id="halfday1" class="form-check-input mt-0" type="checkbox" value="halfday" aria-label="Half Day?">                        
-                        <label for="halfday1">Half Day?</label><br>
+                        <div class="input-group-text">
+                            <input id="halfday1" class="form-check-input mt-0" type="checkbox" value="halfday" aria-label="Half Day?">                        
+                            <label for="halfday1">Half Day?</label><br>
+                        </div>
+
+                        <div class="input-group-text">
+                            <select class="form-select" aria-label="Input AM or PM" id="inputTime1" disabled>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="input-group-text">
-                        <select class="form-select" aria-label="Input AM or PM" id="inputTime1" disabled>
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
-                        </select>
+                    <div class="mb-3">
+                        <label for="inputUsageDetails1" class="form-label">Off Details</label>
+                        <input type="text" class="form-control" id="inputUsageDetails1">
                     </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="inputUsageDetails1" class="form-label">Off Details</label>
-                    <input type="text" class="form-control" id="inputUsageDetails1">
                 </div>
             </div>
             */
@@ -365,27 +384,30 @@
             </div>
 
             <div class="mb-3" id="inputContainer">
-                <div class="input-group separateInput">
-                    <span class="input-group-text">1</span>
-                    <input type="date" class="form-control" id="inputUsageDate1" placeholder="Date Used"> 
+                <div class="segmentedInputFields">
+                    <div class="input-group separateInput">
+                        <span class="input-group-text">1</span>
+                        <input type="date" class="form-control" id="inputUsageDate1" placeholder="Date Used"> 
 
-                    <div class="input-group-text">
-                        <input id="halfday1" class="form-check-input mt-0" type="checkbox" value="halfday" aria-label="Half Day?">                        
-                        <label for="halfday1">Half Day?</label><br>
+                        <div class="input-group-text">
+                            <input id="halfday1" class="form-check-input mt-0" type="checkbox" value="halfday" aria-label="Half Day?">                        
+                            <label for="halfday1">Half Day?</label><br>
+                        </div>
+
+                        <div class="input-group-text">
+                            <select class="form-select" aria-label="Input AM or PM" id="inputTime1" disabled>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="input-group-text">
-                        <select class="form-select" aria-label="Input AM or PM" id="inputTime1" disabled>
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
-                        </select>
-                    </div>
+                    <div class="mb-3">
+                        <label for="inputUsageDetails1" class="form-label">Off Details</label>
+                        <input type="text" class="form-control" id="inputUsageDetails1">
+                    </div>                   
                 </div>
 
-                <div class="mb-3">
-                    <label for="inputUsageDetails1" class="form-label">Off Details</label>
-                    <input type="text" class="form-control" id="inputUsageDetails1">
-                </div>
             </div>
 
             <div class="mb-3">
