@@ -128,7 +128,7 @@
 
         //When user presses the copy button, copy all text in the template box into their clipboard.
         //Because the navigator.clipboard.writeText method returns a promise 
-        //and your code does not wait for its result.
+        //and my code does not wait for its result.
         //Use .then to wait for writeText to receive its promise first.
         function copyAwardFormText(){
                 navigator.clipboard.writeText(template)
