@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>34FMD Template Generator</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+
+        <style>
+            .fadeToGreenifChecked:checked + .labelGreen {
+                font-weight: bold;
+                background-color: rgb(133, 255, 133);
+                transition: 1s;
+            }
+
+            .fadeToGreenifChecked:not(:checked) + .labelGreen {
+                font-weight: normal;
+                background-color: transparent;
+                transition: 1s;
+            }
+
+            div.segmentedInputFields:nth-child(even) {
+                background: #e7e7e7;
+                border-width: medium;
+                border-color: black;
+                border-style: solid;
+            }
+            div.segmentedInputFields:nth-child(odd) { 
+                background: #acacac;
+                border-width: medium;
+                border-color: black;
+                border-style: solid;
+            }
+        </style>
+    </head>
+
+    <body onload="onLoad()">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        var x = 1;
+        var rank;
+        var name;
+        var offdays;
+        var date;
+        var day;
+        var month;
+        var year;
+        var awarder;
+        var details;
+        var template;
+
+        function onLoad(){
+            AwardForm = document.getElementById("AwardForm")
+            UsageForm = document.getElementById("UsageForm")
+            AwardForm.style.display = "block";
+            UsageForm.style.display = "none"
+        }
+
+        //Everytime a user changes something on the form, change the generated template.
+        //This allows for a live update of the template.
+        function onAwardFormChange(){
+
+            rank = document.getElementById("inputRank").value;
+            name = document.getElementById("inputName").value
+            offdays = document.getElementById("inputNumberOffs").value
+            date = document.getElementById("inputDate").value
+            const unformatteddate = new Date(date);
+            awarder = document.getElementById("inputAwarder").value
+            details = document.getElementById("inputDetails").value
+
+            //WTF does || do? Basically checks if the variable is NaN, if it is, output nothing.
+            day = unformatteddate.getDate() || ""
+            month = unformatteddate.getMonth()+1 || ""
+            year = unformatteddate.getFullYear() || ""
+
+            template = "*" + rank + " " + name.toUpperCase() + "* has been awarded *" + 
+                    offdays + " Days Off* on *" + 
+                    day + "/" + 
+                    month + "/" + 
+                    year + "* by *" + awarder.toUpperCase() +
+                    "* for *" + details.toUpperCase() + "*"
+            document.getElementById("generatedTemplate").value = template
+        }
+
+        function onUsageFormChange(){
+
+            rank = document.getElementById("inputUsageRank").value;
+            name = document.getElementById("inputUsageName").value
+            offdays = document.getElementById("inputUsageNumberOffs").value
+            startdate = document.getElementById("inputUsageDateStart").value
+            enddate = document.getElementById("inputUsageDateEnd").value
+            const unformattedstartdate = new Date(startdate);
+            const unformattedenddate = new Date(enddate);
+            approver = document.getElementById("inputApprover").value
+            details = document.getElementById("inputUsageDetails").value
+
+            //WTF does || do? Basically checks if the variable is NaN, if it is, output nothing.
+            /*day = unformatteddate.getDate() || ""
+            month = unformatteddate.getMonth()+1 || ""
+            year = unformatteddate.getFullYear() || ""
+
+            template = "*" + rank + " " + name.toUpperCase() + "* has been awarded *" + 
+                    offdays + " Days Off* on *" + 
+                    day + "/" + 
+                    month + "/" + 
+                    year + "* by *" + awarder.toUpperCase() +
+                    "* for *" + details.toUpperCase() + "*"
+            document.getElementById("generatedTemplate").value = template*/
+        }
+
+        function selectForm(){
+            formType = document.getElementById("inputFormType").value
+            AwardForm = document.getElementById("AwardForm")
+            UsageForm = document.getElementById("UsageForm")
+            if(formType == "OffAwarded"){
+                AwardForm.style.display = "block";
+                UsageForm.style.display = "none"
+                
+            }
+
+            else if(formType == "OffUsage"){
+                UsageForm.style.display = "block";
+                AwardForm.style.display = "none"
+                    
+            }
+        }
+
+        //When user presses the copy button, copy all text in the template box into their clipboard.
+        //Because the navigator.clipboard.writeText method returns a promise 
+        //and my code does not wait for its result.
+        //Use .then to wait for writeText to receive its promise first.
+        function copyAwardFormText(){
+                navigator.clipboard.writeText(template)
+                    .then(() => {
+                        alert("Template has been copied! :)")
+                    })
+                    .catch(() => {
+                        alert("Uh oh, something went wrong. :(")
+                    });
+                
+                
+
+        }
+
+        function AddField(){
+            var container = document.getElementById("inputContainer");
+            x++;
+            // Create an <div> element, set its type and name attributes
+
+            var segmentedField = document.createElement("div")
+            segmentedField.className = "segmentedInputFields"
+
+            var divMain = document.createElement("div")
+            divMain.className = "input-group separateInput"
+
+            var span = document.createElement("span")
+            span.className = "input-group-text"
+            span.innerHTML = x
+
+            var dateinput = document.createElement("input")
+            dateinput.type = "date"
+            dateinput.className = "form-control"
+            dateinput.id = "inputUsageDate" + x
+            dateinput.placeholder = "Date Used"
+            //---------------------------------------------
+            var divHalfDay = document.createElement("div")
+            divHalfDay.className = "input-group-text"
+            
+            var inputHalfDay = document.createElement("input")
+            inputHalfDay.type = "checkbox"
+            inputHalfDay.id = "halfday" + x
+            inputHalfDay.className = "form-check-input mt-0"
+            inputHalfDay.value = "halfday"
+            inputHalfDay.ariaLabel = "Half Day?"
+
+            var labelHalfDay = document.createElement("label")
+            labelHalfDay.innerHTML = "Half Day?"
+            labelHalfDay.htmlFor = "halfday" + x
+            //----------------------------------------------
+            var divAMPM = document.createElement("div")
+            divAMPM.className = "input-group-text"
+
+            var selectAMPM = document.createElement("select")
+            selectAMPM.className = "form-select"
+            selectAMPM.ariaLabel = "Input AM or PM"
+            selectAMPM.id = "inputTime" + x
+            selectAMPM.disabled = true
+
+            var optionAM = document.createElement("option")
+            optionAM.value = "AM"
+            optionAM.innerHTML = "AM"
+
+            var optionPM = document.createElement("option")
+            optionAM.value = "PM"
+            optionAM.innerHTML = "PM"
+
+            //-----------------------------------------------
+
+            var divDetails = document.createElement("div")
+            divDetails.className = "mb-3"
+
+            var labelDetails = document.createElement("label")
+            labelDetails.htmlFor = "inputUsageDetails" + x
+            labelDetails.className = "form-label"
+            labelDetails.innerHTML = "Off Details"
+
+            var inputDetails = document.createElement("input")
+            inputDetails.type = "text"
+            inputDetails.className = "form-control"
+            inputDetails.id = "inputUsageDetails" + x
+
+            container.appendChild(segmentedField)
+            segmentedField.appendChild(divMain)
+            segmentedField.appendChild(divDetails)
+            divMain.appendChild(span)
+            divMain.appendChild(dateinput)
+            divMain.appendChild(divHalfDay)
+            divHalfDay.appendChild(inputHalfDay)
+            divHalfDay.appendChild(labelHalfDay)
+            divMain.appendChild(divAMPM)
+            divAMPM.appendChild(selectAMPM)
+            selectAMPM.appendChild(optionAM)
+            selectAMPM.appendChild(optionPM)
+            divDetails.appendChild(labelDetails)
+            divDetails.appendChild(inputDetails)
+
+            /*
+            <div class="mb-3" id="inputContainer">
+                <div class="segmentedInputFields">
+                    <div class="input-group separateInput">
+                        <span class="input-group-text">1</span>
+                        <input type="date" class="form-control" id="inputUsageDate1" placeholder="Date Used"> 
+
+                        <div class="input-group-text">
+                            <input id="halfday1" class="form-check-input mt-0" type="checkbox" value="halfday" aria-label="Half Day?">                        
+                            <label for="halfday1">Half Day?</label><br>
+                        </div>
+
+                        <div class="input-group-text">
+                            <select class="form-select" aria-label="Input AM or PM" id="inputTime1" disabled>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="inputUsageDetails1" class="form-label">Off Details</label>
+                        <input type="text" class="form-control" id="inputUsageDetails1">
+                    </div>
+                </div>
+            </div>
+            */
+        }
+    </script>
+
+        <form class="ms-2 me-2 mt-2 text-nowrap" onchange="selectForm()">
+            <div class="col me-0 col-sm-4 col-4">
+                <label for="inputFormType" class="form-label">Purpose</label>
+                <select class="form-select" aria-label="Choose template" id="inputFormType">
+                    <option value="OffAwarded">Off Awarded</option>
+                    <option value="OffUsage">Off Usage</option>
+                </select>
+            </div>
+        </form>
+
+        <form class="ms-2 me-2 mt-2 text-nowrap" onchange="onAwardFormChange()" id="AwardForm">
+
+            <div class="row pb-3">
+                <div class="col me-0 col-sm-4 col-4">
+                    <label for="inputRank" class="form-label">Rank</label>
+                    <select class="form-select" aria-label="Default select example" id="inputRank">
+                        <option value="Rank">Rank</option>
+                        <option value="REC">REC</option>
+                        <option value="PTE">PTE</option>
+                        <option value="LCP">LCP</option>
+                        <option value="CPL">CPL</option>
+                        <option value="CFC">CFC</option>
+                        <option value="3SG">3SG</option>
+                        <option value="2SG">2SG</option>
+                        <option value="1SG">1SG</option>
+                        <option value="ME1T">ME1T</option>
+                        <option value="ME1">ME1</option>
+                        <option value="ME2">ME2</option>
+                        <option value="ME3">ME3</option>
+                        <option value="ME4">ME4</option>
+                        <option value="ME5">ME5</option>
+                    </select>
+                </div>
+    
+                <div class="col col-sm-8 col-8">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inputName">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputNumberOffs" class="form-label">No. Of Off Days Awarded</label>
+                <input type="number" class="form-control" id="inputNumberOffs" step="0.5">
+            </div>
+
+            <div class="row">
+                <div class="col mb-3 col-sm-4 col-4">
+                    <label for="inputDate" class="form-label">Awarded On</label>
+                    <input type="date" class="form-control" id="inputDate" placeholder="Date Received"> 
+                </div>
+
+                <div class="col mb-3 col-sm-8 col-8">
+                    <label for="inputAwarder" class="form-label">Awarded By</label>
+                    <input type="text" class="form-control" id="inputAwarder"> 
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputDetails" class="form-label">Off Details</label>
+                <input type="text" class="form-control" id="inputDetails">
+            </div>
+
+            <div class="mb-3" text-wrap>
+                <label for="generatedTemplate" class="form-label">Template</label>
+                <textarea class="form-control" id="generatedTemplate" rows="3" disabled></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="copyAwardFormText()">Copy</button>
+
+        </form>
+
+        <!--Separator--------------------------------------------------------------------------------------------------------------------------->
+
+        <form class="ms-2 me-2 mt-2 text-nowrap" onchange="onUsageFormChange()" id="UsageForm">
+
+            <div class="row pb-3">
+                <div class="col me-0 col-sm-4 col-4">
+                    <label for="inputUsageRank" class="form-label">Rank</label>
+                    <select class="form-select" aria-label="Default select example" id="inputUsageRank">
+                        <option value="Rank">Rank</option>
+                        <option value="REC">REC</option>
+                        <option value="PTE">PTE</option>
+                        <option value="LCP">LCP</option>
+                        <option value="CPL">CPL</option>
+                        <option value="CFC">CFC</option>
+                        <option value="3SG">3SG</option>
+                        <option value="2SG">2SG</option>
+                        <option value="1SG">1SG</option>
+                        <option value="ME1T">ME1T</option>
+                        <option value="ME1">ME1</option>
+                        <option value="ME2">ME2</option>
+                        <option value="ME3">ME3</option>
+                        <option value="ME4">ME4</option>
+                        <option value="ME5">ME5</option>
+                    </select>
+                </div>
+    
+                <div class="col col-sm-8 col-8">
+                    <label for="inputUsageName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inputUsageName">
+                </div>
+            </div>
+
+            <div class="row ms-1 me-1">
+                <div class="col mb-3">
+                    <input type="checkbox" class="fadeToGreenifChecked" id="consecutive" name="consecutive" value="ConsecutiveDates">
+                    <label class="w-100 text-wrap labelGreen" for="consecutive"> My offs are consecutive. Eg. 1 Jan, 2 Jan, 3 Jan</label><br>
+                </div>
+            </div>
+
+            <div class="row ms-1 me-1">
+                <div class="col mb-3">
+                    <input type="checkbox" class="fadeToGreenifChecked" id="separate" name="separate" value="SeparateDates">
+                    <label class="w-100 text-wrap labelGreen" for="separate"> My offs are separate. Eg. 1 Jan, 5 Jan, 8 Jan</label><br>
+                </div>
+            </div>
+
+            <div class="row" id="consecutiveInput">
+                <div class="col mb-3 col-sm-6 col-6">
+                    <label for="inputDateEnd" class="form-label">Date Start</label>
+                    <input type="date" class="form-control" id="inputUsageDateStart" placeholder="Date Start"> 
+                </div>
+                <div class="col mb-3 col-sm-6 col-6">
+                    <label for="inputDateStart" class="form-label">Date End</label>
+                    <input type="date" class="form-control" id="inputUsageDateEnd" placeholder="Date End"> 
+                </div>
+            </div>
+
+            <div class="mb-3" id="inputContainer">
+                <div class="segmentedInputFields">
+                    <div class="input-group separateInput">
+                        <span class="input-group-text">1</span>
+                        <input type="date" class="form-control" id="inputUsageDate1" placeholder="Date Used"> 
+
+                        <div class="input-group-text">
+                            <input id="halfday1" class="form-check-input mt-0" type="checkbox" value="halfday" aria-label="Half Day?">                        
+                            <label for="halfday1">Half Day?</label><br>
+                        </div>
+
+                        <div class="input-group-text">
+                            <select class="form-select" aria-label="Input AM or PM" id="inputTime1" disabled>
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="inputUsageDetails1" class="form-label">Off Details</label>
+                        <input type="text" class="form-control" id="inputUsageDetails1">
+                    </div>                   
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <button type="button" class="btn btn-secondary" onclick="AddField()">Add Day</button>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputUsageNumberOffs" class="form-label">No. Of Off Days Used</label>
+                <input type="number" class="form-control" id="inputUsageNumberOffs" step="0.5" disabled>
+            </div>
+
+            <div class="row">
+                <div class="col mb-3 col-sm-12 col-12">
+                    <label for="inputApprover" class="form-label">Approved By</label>
+                    <input type="text" class="form-control" id="inputApprover"> 
+                </div>
+            </div>
+
+            <div class="mb-3" text-wrap>
+                <label for="generatedTemplate" class="form-label">Template</label>
+                <textarea class="form-control" id="generatedTemplate" rows="3" disabled></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="copyUsageFormText()">Copy</button>
+
+        </form>
+
+
+    </body>
+</html>
