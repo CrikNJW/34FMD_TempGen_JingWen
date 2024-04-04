@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>34FMD Template Generator</title>
     <style>
@@ -140,7 +142,7 @@
                 </div>
 
                 <div class="col-4 mb-1">
-                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate()" value="off">
+                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate(this.value)" value="off">
                         <div class="row justify-content-center">
                             <img class="icons" src="34TemplateGeneratorImages/off.png" alt="Off Image">
                         </div>
@@ -151,7 +153,7 @@
                 </div>
 
                 <div class="col-4 mb-1">
-                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate()" value="off">
+                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate(this.value)" value="off">
                         <div class="row justify-content-center">
                             <img class="icons" src="34TemplateGeneratorImages/off.png" alt="Off Image">
                         </div>
@@ -162,7 +164,7 @@
                 </div>
 
                 <div class="col-4 mb-1">
-                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate()" value="off">
+                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate(this.value)" value="off">
                         <div class="row justify-content-center">
                             <img class="icons" src="34TemplateGeneratorImages/off.png" alt="Off Image">
                         </div>
@@ -173,12 +175,12 @@
                 </div>
 
                 <div class="col-4 mb-1">
-                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate()" value="off">
+                    <button type="button" class="btn btn-primary btn-lg w-100 h-100" onclick="fadeOutTypeOfTemplate(this.value)" value="cosduty">
                         <div class="row justify-content-center">
                             <img class="icons" src="34TemplateGeneratorImages/off.png" alt="Off Image">
                         </div>
                         <div class="row justify-content-center btn-text">
-                            Report Offs
+                            COS Duty
                         </div>
                     </button>
                 </div>
@@ -195,7 +197,7 @@
     <!--VIDEO GUIDE-->
     <div id="VideoType" class="h-100 d-flex align-items-center justify-content-center flex-wrap ratio ratio-16x9">
         <div class="d-flex ratio justify-content-center">
-            <video id="MCVideo" muted loop>
+            <video id="Video" muted loop>
                 <source id="srcvideo" src="" type="video/mp4">
             </video>
         </div>
@@ -245,6 +247,9 @@
                             <option value="ME2">ME2</option>
                             <option value="ME3">ME3</option>
                             <option value="ME4">ME4</option>
+                            <option value="ME4">ME5</option>
+                            <option value="ME4">ME6</option>
+                            <option value="ME4">ME7</option>
                         </select>
                         <label for="generatorrank">Rank</label>
                     </div>
@@ -350,17 +355,25 @@
             </div>
 
             <div class="form-floating pb-3">
-                <textarea class="form-control" id="GeneratedTemplate" disabled style="height: 300px"></textarea>
-                <label for="GeneratedTemplate">Generated Template</label>
+                <textarea class="form-control" id="GeneratedTemplateToSuperior" disabled style="height: 300px"></textarea>
+                <label for="GeneratedTemplateToSuperior">Generated Template (Send to immediate superior)</label>
             </div>
 
             <div class="pb-3">
-                <button type="button" class="btn btn-primary" onclick="copyRSOText()">Copy</button>
+                <button type="button" class="btn btn-primary" onclick="copyRSOTemplateToSuperiorText()">Copy</button>
+            </div>
+
+            <div class="form-floating pb-3">
+                <textarea class="form-control" id="GeneratedTemplateToCOS" disabled style="height: 300px"></textarea>
+                <label for="GeneratedTemplateToCOS">Generated Template (Send to COS)</label>
+            </div>
+
+            <div class="pb-3">
+                <button type="button" class="btn btn-primary" onclick="copyRSOTemplateToCOSText()">Copy</button>
             </div>
 
         </form>
     </div>
-
     <!--NSF MC REPORTING TEMPLATE GENERATOR-->
     <!--NSF MC REPORTING TEMPLATE GENERATOR-->
     <!--NSF MC REPORTING TEMPLATE GENERATOR-->
@@ -368,18 +381,575 @@
     <!--NSF OFF REPORTING-->
     <!--NSF OFF REPORTING-->
     <!--NSF OFF REPORTING-->
-
     <div id="OffTemplateGenerator" class="m-5 h-100">
         <form onchange="OnOffFormChange()">
         </form>
     </div>
+    <!--NSF OFF REPORTING-->
+    <!--NSF OFF REPORTING-->
+    <!--NSF OFF REPORTING-->
 
-    <!--NSF OFF REPORTING-->
-    <!--NSF OFF REPORTING-->
-    <!--NSF OFF REPORTING-->
+    <!--NSF COS GENERATOR-->
+    <!--NSF COS GENERATOR-->
+    <!--NSF COS GENERATOR-->
+    <div id="COSTemplateGenerator" class="m-1 h-100">
+        <form onchange="storeToLocal()">
+            <div id="COSTemplateGeneratorHeading" class="text-center fw-bold">
+                COS Guide
+            </div>
+
+            <table class="table table-hover table-bordered pb-3">
+                <tbody>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">0650hrs</td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10">Reach NSDC by 0650hrs</td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck1">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">2.</td>
+                    <td class="col-10 position-relative">
+                        Draw "34FMD HQ Office Key" - Key 07 from 6AMB Ops Room.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="3 ways to draw: If you are registered in the EKMS, you can use your camp pass to tap and withdraw Key 7. If not, ask to sign in the Key Register Book. If you are not authorized in any scenario, ask any 34FMD duty spec/any specs available to assist you.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck2">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">3.</td>
+                    <td class="col-10 position-relative">
+                        Unlock DHQ Office by 0700hrs
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Turn on all AC/Lights/Fans/Photocopiers/Printers. Both inside the office and along the walkway outside.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck3">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">0700hrs</td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10 position-relative">
+                        Retrieve Key C02 and open the COS Drawer
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck4">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">2.</td>
+                    <td class="col-10 position-relative">
+                        Ensure you have the following items in the 3rd drawer:
+                        <ol>
+                            <li>Key Register Book</li> 
+                            <li>COS Hoto Book</li>
+                            <li>34FMD Photocopy Logbook</li>
+                            <li>34FMD COS Logbook</li>
+                            <li>34FMD Attendance File</li>
+                            <li>34FMD RSO Medical Certificate File</li>
+                            <li>34FMD Visitors Logbook</li>
+                        </ol>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck5">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">3.</td>
+                    <td class="col-10 position-relative">
+                        Place the following items on your table, the rest can go back in the drawer:
+                        <ol>
+                            <li>Key Register Book</li> 
+                            <li>COS Hoto Book</li>
+                            <li>34FMD Photocopy Logbook</li>
+                            <li>34FMD Attendance File</li>
+                        </ol>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck6">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">4.</td>
+                    <td class="col-10 position-relative">
+                        Open the Key Register Book and go to the latest new page. Sign for the C02 key which you have drawn earlier.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Do not sign under Recipient, ask someone else in the office to be the Recipient. Do not sign the return keys portion. Wait till the end of the day to sign that portion, though you can keep C02 key back in the keypress to keep it safe.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck7">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">5.</td>
+                    <td class="col-10 position-relative">
+                        Check with DHQ personnel whether DC is present. If DC is present, help to sign DC office key in the key register book.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Adhere to the same principle as signing for Key C02. As seen in the question mark above. You do not need to open DC Office.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck8">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">6.</td>
+                    <td class="col-10 position-relative">
+                        Retrieve a HOTO Checklist from the HOTO file. Adhere to the checklist throughout the day.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="If in doubt due to conflicting instructions, follow this website, not the checklist.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck9">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">7.</td>
+                    <td class="col-10 position-relative">
+                        Prepare your Short COS Template.
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\ShortCOSTemplate.PNG">
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Earlier in the day, people will message you if they are going to MA/RSO/RSI. Update it accordingly in the short template. You can copy the previous day's COS template to save time and keep formatting consistent.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck10">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">0730hrs</td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10 position-relative">
+                        Send the Short COS Template you prepared earlier into the 34FMD groupchat.
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck11">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">2.</td>
+                    <td class="col-10 position-relative">
+                        Send the Greeting Template immeidately after sending the Short COS Template
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\GreetingTemplate.PNG">
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck12">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">3.</td>
+                    <td class="col-10 position-relative">
+                        Text each POC of the CSWs to ask if any contractors have RSOed.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="POCs can be found at the top left sticky notes of the COS table divider. If still unsure, ask any DHQ personnel.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck13">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">Throughout the day(Receiving MCs/Statuses)</td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10 position-relative">
+                        Throughout the day, people will update you on the statuses they received. Update the Short COS Template accordingly, and update the Greeting Template accordingly as well.
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\GreetingStatusTemplate.PNG">
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Remember to send the Short COS Template first before the Greeting Template.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck14">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">2.</td>
+                    <td class="col-10 position-relative">
+                        (MC &lt;3 Days) When a serviceman receives any amount of MC, they are to apply for it on ESS and take a screenshot of it. They are to fill up the S1 Br Reporting Template. Redirect them to this link to generate it and send it over to you. https://3ambs1brrishi.github.io/S1-BR-MC-Reporting.io/
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck15">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">3.</td>
+                    <td class="col-10 position-relative">
+                        (MC &lt;3 Days) Send the ESS Screenshot and the message together in 1 single message to the 34FMD groupchat.
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\ESS_ScreenshotTemplate.PNG">
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Ensure you send the both screenshot and message together. Not in separate messages.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck16">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">4.</td>
+                    <td class="col-10 position-relative">
+                        (MC >3 Days) When a serviceman receives >3(Not 3 or &lt;3 days.) days of MC or Hospitalisation Leave. You are to inform Ops Room. Get the serviceman to do up the Ops Room Reporting Template Generator and send it to you. https://opstest1.netlify.app/
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\OpsRoomReportingTemplate.PNG">
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="This is to be done on TOP of the ESS/S1 Br Reporting Template.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck17">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">5.</td>
+                    <td class="col-10 position-relative">
+                        (MC >3 Days) Send the Short COS Template, Updated Greeting Template, S1 Br Template, Ops Room Reporting Template and the updated Greeting Template. You are to ask for permission before informing Ops Room.
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\PermissionToInformTemplate.PNG">
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="After permission is given, call Ops Room to tell them the details of the personnel who received >3 days MC. Ops Room Number can be found in 34FMD group description.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck18">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">Throughout the day(Photocopying)</td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10 position-relative">
+                        People may approach you to photocopy documents. As a COS, you are NOT ALLOWED to photocopy anything. ALWAYS approach DHQ personnel to hep photocopy documents. Get the recipient to sign the Photocopy Logbook.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Take not of the Initial/Final Count. This is basically the tally of all photocopied documents. If photocopying today, Initial Count can be taken from the Final Count of yesterday. The Final Count of today will be Initial Count + Number of Pages printed. To find out what is the Final Count, open the photocopier and access 'Device' > 'Billing Meters' > 'Meter 4' ">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck19">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">Throughout the day(Personnel Movement)</td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10 position-relative">
+                        If someone is going on an MA/RSI after coming to camp, you are required to update the COS Short Template and send the personnel movement template as well. Get the personnel to update you constantly on when they have reached/left the location.
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\PersonnelMovementTemplate.PNG">
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Repeatedly send the personnel movement list everytime a new movement is reported.(Leaving/Arriving/Returning)">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck20">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">1630-1700hrs - Near the End of the Day</td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10 position-relative">
+                        Begin crafting the long End-Of-Day Template. The long template should include the overview tab and multiple other tabs that you should fill in based on all the new details/statuses you have received for the day.
+                        <br>
+                        <img class="img-fluid" src="34TemplateGeneratorImages\LongTemplate.PNG">
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Ensure that statuses and those on MC are updated accordingly. Remove those whose status has expired. You can copy the long template from the previous day's COS and updaste it accordingly.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck21">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">2.</td>
+                    <td class="col-10 position-relative">
+                        Ensure that the orderly has thrown the trash in DHQ.(Not just the toilet)
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Contact the orderly if trash has not been thrown.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck22">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="text-center fw-bold" colspan="2">1730hrs - End of the day</td>
+                  </tr>
+                  
+                  <tr class="d-flex">
+                    <td class="col-1">1.</td>
+                    <td class="col-10 position-relative">
+                        Ensure all electrical appliances/outlets are switched off.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="DO NOT SWITCH OFF OSNS/LAPTOPS AND THEIR OUTLETS. THEY NEED SECURITY PATCHING OVERNIGHT.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck23">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">2.</td>
+                    <td class="col-10 position-relative">
+                        Wait for all keys to be returned before closing the following books: 
+                        <ol>
+                            <li>Keypress Book</li>
+                            <li>Photocopy Logbook</li>
+                            <li>HOTO Checklist</li>
+                        </ol>
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="DO NOT SWITCH OFF OSNS/LAPTOPS AND THEIR OUTLETS. THEY NEED SECURITY PATCHING OVERNIGHT.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck24">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">3.</td>
+                    <td class="col-10 position-relative">
+                        Sign the COS Hoto checklist under “Handing Over”
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck25">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">4.</td>
+                    <td class="col-10 position-relative">
+                        Wait for the Duty Sergeant to sign off the 3 documents.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Alternatively, you may ask PC to sign.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck26">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">5.</td>
+                    <td class="col-10 position-relative">
+                        Ensure the COS table is tidy, no kitchenware in sight.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Due to rampant unwashed kitchenware being left on COS table, all COSes are to immediately discard all kitchenware seen on the table into the TRASH. Not keep/store it elsewhere.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck27">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">6.</td>
+                    <td class="col-10 position-relative">
+                        Return all documents to the COS Drawer(3rd Drawer).
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Do not place documents in the other drawers.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck28">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">7.</td>
+                    <td class="col-10 position-relative">
+                        Ensure that the protection bar of the drawer is in place and locked.
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck29">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">8.</td>
+                    <td class="col-10 position-relative">
+                        Ensure that the power plug of the COS OSN/laptop is on and plugged into the OSN.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="If you have used it for charging your phone, remember to plug in back into the OSN.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck30">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">9.</td>
+                    <td class="col-10 position-relative">
+                        Turn off lights and aircon.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="Includes lights along the corridor and toilet.">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck31">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">10.</td>
+                    <td class="col-10 position-relative">
+                        Lock DHQ Office and ensure all rooms in DHQ are locked.
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck32">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">11.</td>
+                    <td class="col-10 position-relative">
+                        Return the key to 6AMB Ops Room
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck33">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">12.</td>
+                    <td class="col-10 position-relative">
+                        Send the final LONG COS template
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="To be followed by the greeting template that states “No further changes are to be made”">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck34">
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr class="d-flex">
+                    <td class="col-1">13.</td>
+                    <td class="col-10 position-relative">
+                        Pat yourself on the back, knowing you are 1 day closer to ORD.
+                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0" data-bs-toggle="popover" title="Popover Header" 
+                        data-bs-content="https://i.redd.it/i09x464wts441.jpg">?</button>
+                    </td>
+                    <td class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="COScheck35">
+                        </div>
+                    </td>
+                  </tr>
+
+
+                </tbody>
+              </table>
+        </form>
+    </div>
+    <!--NSF COS GENERATOR-->
+    <!--NSF COS GENERATOR-->
+    <!--NSF COS GENERATOR-->
 
 </body>
 
 <script src="script.js"></script>
+<script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+</script>
 
 </html>

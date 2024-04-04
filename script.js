@@ -2,16 +2,19 @@
 var ServiceType;
 var TemplateType;
 var rank;
-var name;
+var username;
 var guidelineticked;
 var replacement1;
 var replacement2;
 var noOfRso;
 var rsoReason;
-var rsoTemplate;
+var rsoTemplateToSuperior;
+var rsoTemplateToCOS;
 var guidelinetickedtext;
 var replacement1text;
 var replacement2text;
+var currentDate;
+var currentTime;
 
 //Call this function to transition from Service Panel > Template Type Panel
 function fadeOutService(value) {
@@ -66,8 +69,11 @@ function fadeInVideo(){
         case "nsfmc":
             sourcevideo = document.getElementById("srcvideo")
             sourcevideo.src = "Videos\\NSF_MC_ChainOfCommand.mp4"
+            break //break is needed as without a break, the next case will still be executed even if it does not match.
 
-        case "nsfoff":
+        case "nsfcosduty":
+            fadeOutVideo(); //Skip the video and go to COS Guide
+            break
 
     }
 
@@ -75,7 +81,7 @@ function fadeInVideo(){
     videoType.classList.remove("d-none")
     videoType.classList.add("d-flex")
     videoType.classList.add("fade-in")
-    video = document.getElementById("MCVideo")
+    video = document.getElementById("Video")
     video.autoplay = true
     video.load()
 }
@@ -109,6 +115,12 @@ function fadeInGenerator(){
             offgenerator.style.display = "block"
             offgenerator.classList.add("fade-in")
             break
+
+        case "nsfcosduty":
+            cosdutygenerator = document.getElementById("COSTemplateGenerator")
+            cosdutygenerator.style.display = "block"
+            cosdutygenerator.classList.add("fade-in")
+            break
     } 
 }
 
@@ -123,11 +135,15 @@ function firstLoad(){
     rsogenerator.style.display = "none"
     offgenerator = document.getElementById("OffTemplateGenerator")
     offgenerator.style.display = "none"
+    cosdutygenerator = document.getElementById("COSTemplateGenerator")
+    cosdutygenerator.style.display = "none"
+    retrieveFromLocal();
 
 }
 
 function checkTime(){
-    var currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12:false});
+    currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12:false});
+    currentDate = new Date().toLocaleDateString();
     var currentTimeElement = document.getElementById("CurrentTime")
     console.log("The time now is " + currentTime)
     currentTimeElement.innerHTML = "I have to request RSO before 0600. The time now is " + currentTime
@@ -136,7 +152,7 @@ setInterval(checkTime,1000)
 
 function OnMCFormChange(){
     rank = document.getElementById("generatorrank").value
-    name = document.getElementById("floatingInputName").value
+    username = document.getElementById("floatingInputName").value
     if (document.getElementById("RSOGuidelines").checked == true){
         guidelineticked = true;
         guidelinetickedtext = "*I abide by the following guidelines:* "
@@ -167,7 +183,7 @@ function OnMCFormChange(){
     noOfRso = document.getElementById("floatingInputNumberOfRSO").value
     rsoReason = document.getElementById("floatingInputReason").value
 
-    rsoTemplate = "*RSO Template*\n" + "*Rank and Name:* " + rank + " " + name + "\n" + "*No. Of RSOs this Month:* " + noOfRso + "\n" + "*Reason:* " + rsoReason + "\n" + "\n" + guidelinetickedtext + "\n" 
+    rsoTemplateToSuperior = "*RSO Template*\n" + "*Rank and Name:* " + rank + " " + username + "\n" + "*No. Of RSOs this Month:* " + noOfRso + "\n" + "*Reason:* " + rsoReason + "\n" + "\n" + guidelinetickedtext + "\n" 
     + "1. " + document.getElementById("CurrentTime").innerHTML + "\n"
     + "2. I will follow the chain of command when requesting to RSO.\n"
     + "3. I will update my respective groups on my status when permission is granted to RSO.\n"
@@ -182,22 +198,60 @@ function OnMCFormChange(){
     + replacement1text
     + replacement2text
 
-    document.getElementById("GeneratedTemplate").value = rsoTemplate;
+    rsoTemplateToCOS = "Name: " + rank + " " + username + "\n"
+    + "Date & Time: " + currentDate + ", " + currentTime + "\n"
+    + "Purpose for Reporting Sick/MA: " + rsoReason + "\n"
+    + "Status: TBC" + "\n"
+    + "Ops Room Informed: TBC"
+
+    document.getElementById("GeneratedTemplateToSuperior").value = rsoTemplateToSuperior;
+    document.getElementById("GeneratedTemplateToCOS").value = rsoTemplateToCOS;
+
 }
 
 //When user presses the copy button, copy all text in the template box into their clipboard.
 //Because the navigator.clipboard.writeText method returns a promise 
 //and my code does not wait for its result.
 //Use .then to wait for writeText to receive its promise first.
-function copyRSOText(){
-    navigator.clipboard.writeText(rsoTemplate)
+function copyRSOTemplateToSuperiorText(){
+    navigator.clipboard.writeText(rsoTemplateToSuperior)
         .then(() => {
             alert("Template has been copied! :)")
         })
         .catch(() => {
             alert("Uh oh, something went wrong. :(")
         });
-    
-    
+}
 
+function copyRSOTemplateToCOSText(){
+    navigator.clipboard.writeText(rsoTemplateToCOS)
+        .then(() => {
+            alert("Template has been copied! :)")
+        })
+        .catch(() => {
+            alert("Uh oh, something went wrong. :(")
+        });
+}
+
+function storeToLocal(){
+    for (let x = 1; x < 36; x++) {
+        var checkbox = document.getElementById("COScheck"+x)
+        if (checkbox.checked == true){
+            localStorage.setItem("COScheck"+x,checkbox.checked)
+            console.log("Stored " + "COScheck" + x + "," + checkbox.checked + " into localStorage")
+        }
+
+        else if (checkbox.checked == false){
+            localStorage.removeItem("COScheck"+x,checkbox.checked)
+            console.log("Removed " + "COScheck"+x,true + " from localStorage")
+        }
+    }
+}
+
+function retrieveFromLocal(){
+    for (let iInLocal = 1; iInLocal < 36; iInLocal++){
+        var checked = JSON.parse(localStorage.getItem("COScheck"+iInLocal))
+        document.getElementById("COScheck"+iInLocal).checked = checked;
+    }
+    console.log(localStorage)
 }
