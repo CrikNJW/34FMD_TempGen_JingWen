@@ -234,7 +234,7 @@ function copyRSOTemplateToCOSText(){
 }
 
 function storeToLocal(){
-    for (let x = 1; x < 36; x++) {
+    for (let x = 1; x < 37; x++) {
         var checkbox = document.getElementById("COScheck"+x)
         if (checkbox.checked == true){
             localStorage.setItem("COScheck"+x,checkbox.checked)
@@ -249,7 +249,7 @@ function storeToLocal(){
 }
 
 function retrieveFromLocal(){
-    for (let iInLocal = 1; iInLocal < 36; iInLocal++){
+    for (let iInLocal = 1; iInLocal < 37; iInLocal++){
         var checked = JSON.parse(localStorage.getItem("COScheck"+iInLocal))
         document.getElementById("COScheck"+iInLocal).checked = checked;
     }
