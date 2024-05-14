@@ -86,7 +86,7 @@ function fadeInVideo(){
     video.load()
 }
 
-function fadeOutVideo(){
+function fadeOutNSFRSOVideo(){
     var videoType = document.getElementById("VideoType");
     var divs = videoType.getElementsByTagName("div");
 
@@ -99,56 +99,56 @@ function fadeOutVideo(){
         videoType.classList.remove("d-flex")
         videoType.classList.add("d-none");
     }, 500);
-    setTimeout(fadeInGenerator, 500) //Apparently keeping the parantheses () causes the function to trigger instantly, why??????
+    setTimeout(fadeInNSFRSOGenerator, 500) //Apparently keeping the parantheses () causes the function to trigger instantly, why??????
 }
 
-function fadeInGenerator(){
-    switch(ServiceType+TemplateType){
-        case "nsfmc":
-            rsogenerator = document.getElementById("RSOTemplateGenerator")
-            rsogenerator.style.display = "block"
-            rsogenerator.classList.add("fade-in")
-            break //break is needed as without a break, the next case will still be executed even if it does not match.
-
-        case "nsfoff":
-            offgenerator = document.getElementById("OffTemplateGenerator")
-            offgenerator.style.display = "block"
-            offgenerator.classList.add("fade-in")
-            break
-
-        case "nsfcosduty":
-            cosdutygenerator = document.getElementById("COSTemplateGenerator")
-            cosdutygenerator.style.display = "block"
-            cosdutygenerator.classList.add("fade-in")
-            break
-    } 
+function fadeInNSFRSOGenerator(){
+    rsogenerator = document.getElementById("RSOTemplateGenerator")
+    rsogenerator.style.display = "block"
+    rsogenerator.classList.add("fade-in")
 }
 
 function firstLoad(){
     typeOfTemplate = document.getElementById("TypeOfTemplate")
     typeOfTemplate.classList.remove("d-flex")
     typeOfTemplate.classList.add("d-none")
+}
+
+function cosLoad(){
+    retrieveFromLocal();
+}
+
+function nsfRSOLoad(){
+    setInterval(checkTime,1000)
+    setInterval(setCurrentTimeInnerHTML,1000)
     videoType = document.getElementById("VideoType")
     videoType.classList.remove("d-flex")
     videoType.classList.add("d-none")
     rsogenerator = document.getElementById("RSOTemplateGenerator")
     rsogenerator.style.display = "none"
-    offgenerator = document.getElementById("OffTemplateGenerator")
-    offgenerator.style.display = "none"
-    cosdutygenerator = document.getElementById("COSTemplateGenerator")
-    cosdutygenerator.style.display = "none"
-    retrieveFromLocal();
 
+    sourcevideo = document.getElementById("srcvideo")
+    sourcevideo.src = "Videos\\NSF_MC_ChainOfCommand.mp4"
+
+    videoType = document.getElementById("VideoType")
+    videoType.classList.remove("d-none")
+    videoType.classList.add("d-flex")
+    videoType.classList.add("fade-in")
+    video = document.getElementById("Video")
+    video.autoplay = true
+    video.load()
 }
 
 function checkTime(){
     currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12:false});
     currentDate = new Date().toLocaleDateString();
-    var currentTimeElement = document.getElementById("CurrentTime")
     console.log("The time now is " + currentTime)
+}
+
+function setCurrentTimeInnerHTML(){
+    var currentTimeElement = document.getElementById("CurrentTime")
     currentTimeElement.innerHTML = "I have to request RSO before 0600. The time now is " + currentTime
 }
-setInterval(checkTime,1000)
 
 function OnMCFormChange(){
     rank = document.getElementById("generatorrank").value
@@ -183,7 +183,7 @@ function OnMCFormChange(){
     noOfRso = document.getElementById("floatingInputNumberOfRSO").value
     rsoReason = document.getElementById("floatingInputReason").value
 
-    rsoTemplateToSuperior = "*RSO Template*\n" + "*Rank and Name:* " + rank + " " + username + "\n" + "*No. Of RSOs this Month:* " + noOfRso + "\n" + "*Reason:* " + rsoReason + "\n" + "\n" + guidelinetickedtext + "\n" 
+    rsoTemplateToSuperior = "*RSO Template*\n" + "*Rank and Name:* " + rank + " " + username + "\n" + "*No. Of RSOs this Month:* " + noOfRso + " (Including today)" + "\n" + "*Reason:* " + rsoReason + "\n" + "\n" + guidelinetickedtext + "\n" 
     + "1. " + document.getElementById("CurrentTime").innerHTML + "\n"
     + "2. I will follow the chain of command when requesting to RSO.\n"
     + "3. I will update my respective groups on my status when permission is granted to RSO.\n"
@@ -254,4 +254,12 @@ function retrieveFromLocal(){
         document.getElementById("COScheck"+iInLocal).checked = checked;
     }
     console.log(localStorage)
+}
+
+function clearCOSCheckmarks() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    localStorage.clear()
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
 }
