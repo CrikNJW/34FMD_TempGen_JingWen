@@ -15,6 +15,8 @@ var replacement1text;
 var replacement2text;
 var currentDate;
 var currentTime;
+var existingExercises;
+var exerciseNumber;
 
 //Call this function to transition from Service Panel > Template Type Panel
 function fadeOutService(value) {
@@ -262,4 +264,81 @@ function clearCOSCheckmarks() {
     checkboxes.forEach(function(checkbox) {
         checkbox.checked = false;
     });
+}
+
+function addExercise() {
+    const container = document.getElementById('srtFieldContainer');
+
+    // Count existing exercises to determine the next number
+    existingExercises = container.querySelectorAll('.form-floating').length;
+    exerciseNumber = existingExercises + 1;
+
+    // Create new exercise field
+    const newExerciseField = document.createElement('div');
+    newExerciseField.classList.add('row');
+    newExerciseField.innerHTML = `
+        <div class="col">
+            <div class="form-floating mb-3 col">
+                <input type="text" class="form-control" id="floatingInputSRTEx${exerciseNumber}">
+                <label for="floatingInputSRTEx${exerciseNumber}">Exercise ${exerciseNumber}</label>
+            </div>
+        </div>
+    `;
+
+    // Append the new exercise field to the container
+    container.appendChild(newExerciseField);
+}
+
+function OnSRTFormChange(){
+    var SRTDate = document.getElementById('floatingInputSRTDate').value
+    var SRTTimeFrom = document.getElementById('floatingInputSRTTimeFrom').value
+    var SRTTimeTo = document.getElementById('floatingInputSRTTimeTo').value
+    existingExercises = document.getElementById('srtFieldContainer').querySelectorAll('.form-floating').length;
+    const SRTExercises = []
+
+    for (let iSRT = 1; iSRT <= existingExercises; iSRT++){
+        var Exercise = document.getElementById('floatingInputSRTEx'+iSRT)
+        SRTExercises.push(iSRT + ". " + Exercise.value)
+    }
+    console.log(SRTExercises)
+
+    const srtPersonnelTextArea = document.getElementById('floatingInputSRTPax');
+    const srtPersonnelTextAreaNames = srtPersonnelTextArea.value.trim()
+    // Split the text content into an array of names using newline \n as the separator
+    const namesArray = srtPersonnelTextAreaNames.split('\n');
+    console.log(namesArray)
+
+    var generatedSRTTemplate = 
+    "Greetings Sirs and all,"
+    + "\n\n"
+    + "NSDC WKSP PLT will be doing *SRT on "
+    + SRTDate + " in NSDC from " 
+    + SRTTimeFrom + "hrs to "
+    + SRTTimeTo + "hrs.*"
+    + "\n\n"
+    + "Individual RAC will be conducted based on SRT guidelines. Safety Brief and Water Parade will be conducted prior to the activities and to inform participants to keep a close watch for one another while maintaining safe distancing."
+    + "\n\n"
+    + "Type of Training/Exercises:"
+    + "\n"
+    + SRTExercises.join('\n')
+    + "\n\n"
+    + "Personnel Involved:"
+    + "\n"
+    + namesArray.join('\n')
+    + "\n\n"
+    + "For your approval sirs."
+
+    document.getElementById('GeneratedSRTTemplate').value = generatedSRTTemplate
+
+
+}
+
+function copySRTTemplate(){
+    navigator.clipboard.writeText(document.getElementById('GeneratedSRTTemplate').value)
+        .then(() => {
+            alert("Template has been copied! :)")
+        })
+        .catch(() => {
+            alert("Uh oh, something went wrong. :(")
+        });
 }

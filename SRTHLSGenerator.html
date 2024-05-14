@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>34FMD SRT Template Generator</title>
+    <style>
+        html, body{
+            height: 100%;
+        }
+
+        .icons{
+            max-width: 100%;
+            height: auto;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInAnimation 0.5s ease forwards;
+        }
+
+        .fade-out {
+            animation: fadeOutAnimation 0.5s ease forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutAnimation {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Default button text size */
+        .btn-text {
+            font-size: 1.5rem; /* Adjust this value as needed */
+        }
+
+        /* Media queries for different screen sizes */
+        @media screen and (max-width: 768px) {
+            .btn-text {
+                font-size: 1.2rem; /* Adjust font size for smaller screens */
+            }
+            
+            @media screen and (max-width: 360px) {
+                .btn-text {
+                    font-size: 1rem; /* Adjust font size for smaller screens */
+                }
+                
+                @media screen and (max-width: 200px) {
+                    .btn-text {
+                        font-size: 0.8rem; /* Adjust font size for smaller screens */
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+<body onload="">
+
+    <!--SRT TEMPLATE GENERATOR-->
+    <!--SRT TEMPLATE GENERATOR-->
+    <!--SRT TEMPLATE GENERATOR-->
+
+    <div id="RSOTemplateGenerator" class="m-5 h-100">
+        <form onchange="OnSRTFormChange()">
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-floating mb-3 col">
+                        <input type="text" class="form-control" id="floatingInputSRTDate">
+                        <label for="floatingInputSRTDate">Date(DDMMYY)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-floating mb-3 col">
+                        <input type="text" class="form-control" id="floatingInputSRTTimeFrom">
+                        <label for="floatingInputSRTTimeFrom">Time From</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-floating mb-3 col">
+                        <input type="text" class="form-control" id="floatingInputSRTTimeTo">
+                        <label for="floatingInputSRTTimeTo">Time To</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="srtFieldContainer">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-floating mb-3 col">
+                            <input type="text" class="form-control" id="floatingInputSRTEx1">
+                            <label for="floatingInputSRTEx1">Exercise 1</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="addExerciseButton" class="btn btn-primary mb-3" onclick="addExercise()">Add Exercise</button>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-floating mb-3 col">
+                        <textarea type="text" class="form-control" id="floatingInputSRTPax" style="height: 300px"></textarea>
+                        <label for="floatingInputSRTPax">Personnel Involved (Put each name on new line)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-floating pb-3">
+                <textarea class="form-control" id="GeneratedSRTTemplate" disabled style="height: 300px"></textarea>
+                <label for="GeneratedSRTTemplate">Generated SRT Template</label>
+            </div>
+
+            <div class="pb-3">
+                <button type="button" class="btn btn-primary" onclick="copySRTTemplate()">Copy</button>
+            </div>
+
+        </form>
+    </div>
+    <!--NSF MC REPORTING TEMPLATE GENERATOR-->
+    <!--NSF MC REPORTING TEMPLATE GENERATOR-->
+    <!--NSF MC REPORTING TEMPLATE GENERATOR-->
+
+</body>
+
+<script src="script.js"></script>
+
+</html>
